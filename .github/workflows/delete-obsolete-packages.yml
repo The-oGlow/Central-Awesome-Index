@@ -1,0 +1,61 @@
+# Deletes packages
+
+name: delete-obsolete-packages
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/delete-package-versions@v3
+      with:
+        # Can be a single package version id, or a comma separated list of package version ids.
+        # Defaults to an empty string.
+        #package-version-ids:
+
+        # Owner of the repo hosting the package.
+        # Defaults to the owner of the repo executing the workflow.
+        # Required if deleting a version from a package hosted in a different repo than the one executing the workflow.
+        #owner:
+
+        # Repo hosting the package.
+        # Defaults to the repo executing the workflow.
+        # Required if deleting a version from a package hosted in a different repo than the one executing the workflow.
+        #repo:
+
+        # Name of the package.
+        # Defaults to an empty string.
+        # Required if `package-version-ids` input is not given.
+        package-name: com.glowa-net.maven.parent.global-pom,com.glowa-net.maven.parent.global-appl-pom
+
+        # The number of old versions to delete starting from the oldest version.
+        # Defaults to 1.
+        #num-old-versions-to-delete:
+
+        # The number of latest versions to keep.
+        # This cannot be specified with `num-old-versions-to-delete`. By default, `num-old-versions-to-delete` takes precedence over `min-versions-to-keep`.
+        # When set to 0, all deletable versions will be deleted.
+        # When set greater than 0, all deletable package versions except the specified number will be deleted.
+        min-versions-to-keep: 2
+
+        # The package versions to exclude from deletion.
+        # Takes regex for the version name as input.
+        # By default nothing is ignored.
+        #ignore-versions:
+
+        # If true it will delete only the pre-release versions.
+        # The number of pre-release versions to keep can be set by using `min-versions-to-keep` value with this.
+        # When `min-versions-to-keep` is 0, all pre-release versions get deleted.
+        # Defaults to false.
+        # Cannot be used with `num-old-versions-to-delete` and `ignore-versions`.
+        #delete-only-pre-release-versions:
+
+        # The token used to authenticate with GitHub Packages.
+        # Defaults to github.token.
+        # Required if deleting a version from a package hosted in a different repo than the one executing the workflow.
+        #   If `package-version-ids` is given the token only needs the delete packages scope.
+        #   If `package-version-ids` is not given the token needs the delete packages scope and the read packages scope
+        #token:
